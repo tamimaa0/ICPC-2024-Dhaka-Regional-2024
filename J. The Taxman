@@ -1,0 +1,158 @@
+#include <bits/stdc++.h>
+#define ll long long int
+#define db double
+
+const int N=1e4+10;
+const ll M = 1000000007;
+using namespace std;
+
+vector<bool>prime(N , true) ;
+
+vector<ll>p;
+
+void fiill(){
+
+    p.push_back(1LL);
+
+    while(p.size()<=N){
+        p.push_back(p.back()+4LL);
+    }
+
+}
+
+
+void seive(){
+
+    prime[1] = false ;
+    prime[0] = false;
+
+
+    for (int i = 2; i*i <= N; i++) {
+        if (prime[i]) {
+
+
+            for (int j = i * i; j <= N; j += i)
+                prime[j] = false;
+        }
+    }
+
+
+
+
+}
+
+void pr_f(vector<ll>p , vector<ll>&p_f ,ll n , int i){
+
+    if(prime[n])
+    {
+        p_f.push_back(n) ;
+        return;
+    }
+
+    if(n%p[i] == 0){
+        p_f.push_back(p[i]);
+        pr_f(p,p_f, n/p[i], i);
+
+    } else
+    {
+        pr_f(p,p_f, n, i+1);
+    }
+
+}
+
+
+db s_t(db n){
+
+    return min(n, 37500.0) *0.2;
+
+}
+
+db t_t(db n){
+    return min(n, 100000.0)*0.4;
+}
+
+db l_t(db n){
+return n*0.45;
+}
+
+
+
+db ans (db n){
+
+    db l= 0 ;
+    db r = LONG_MAX ;
+    db result = 0 ;
+
+    while(l<=r){
+
+        db tax = 0 ;
+
+        db mid = (l+r)/2 ;
+
+        db x = max(mid-100000 , 0.0) ;
+        x= x*0.5 ;
+        x = min(12500.0,x)*0.4 ;
+
+        tax += x ;
+
+        db taka = mid ;
+
+        taka -= min(taka, 12500.0) ;
+
+        tax += s_t(taka);
+
+        taka -=  min(taka, 37500.0) ;
+
+        tax += t_t(taka) ;
+
+        taka -= min(taka, 100000.0) ;
+
+        tax += l_t(taka);
+
+        taka -= taka ;
+
+        if(tax <=n){
+            l = mid +0.000001 ;
+            result = mid ;
+        }else
+            r= mid - 0.000001 ;
+
+        //cout<<mid<<" "<<tax<<" "<<x<<endl;
+    }
+    return result ;
+}
+
+void solve(){
+
+    db n ;
+    cin>>n;
+
+    cout<<setprecision(10)<<ans(n)<<endl;
+    //printf("%.7lf \n", ans(n));
+
+
+}
+//13:13
+
+
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    //seive();
+    //fiill();
+
+
+
+    int t = 1;
+    cin >> t;
+    while (t--)
+    {
+
+        solve();
+
+    }
+    return 0;
+    }
